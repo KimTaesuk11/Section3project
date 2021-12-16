@@ -17,10 +17,12 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
-model = pickle.load(open('silver.pkl', 'rb'))
+
 @app.route('/silver',methods=['GET','POST'])
 def silverTest():
-    prediction = model.predict(X_test.iloc[-1])
+    with open('silver.pkl','rb') as m:
+        model = pickle.load(m)
+    prediction = model.predict([X_test.iloc[-1]])
     return render_template('silver_show.html', prediction = prediction) 
 
     # data = request.get_json(force=True)
